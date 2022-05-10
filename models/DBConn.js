@@ -27,10 +27,11 @@ const sequelize = new Sequelize(
 sequelize
   .authenticate()
   .then(() => {
-    console.log("DB Connection Successful");
+    console.log('DB Connection Successful');
   })
   .catch((err) => {
-    console.log("DB Connection Failed", err);
+    console.log('DB Connection Failed', err);
+
   });
 
 module.exports = {
