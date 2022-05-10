@@ -6,7 +6,7 @@ class User extends Model {}
 User.init(
   {
     userid: {
-      type: DataTypes.STRING,
+      type: DataTypes.INTEGER,
       primaryKey: true,
       autoIncrement: true,
       field: "userid",
@@ -29,6 +29,11 @@ User.init(
     username: {
       type: DataTypes.STRING,
       field: "username",
+    },
+
+    role: {
+      type: DataTypes.STRING,
+      field: "role",
     },
     // createdAt: {
     //   type: DataTypes.DATE,
