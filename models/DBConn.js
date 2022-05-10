@@ -10,20 +10,23 @@ const sequelize = new Sequelize('dbcps5l6ufq0bf', 'cohjqehtiqzjtt', 'b34383c894e
             require: true,
             rejectUnauthorized: false
         }
-    },
-    define: {
-        timestamps: false,
-        freezeTableName: true
-    }
+  },
+  define: {
+    timestamps: false,
+    freezeTableName: true,
+  },
 });
 
 // Test DB connection
-sequelize.authenticate().then(() => {
+sequelize
+  .authenticate()
+  .then(() => {
     console.log('DB Connection Successful');
-}).catch((err) => {
+  })
+  .catch((err) => {
     console.log('DB Connection Failed', err);
-})
+  });
 
 module.exports = {
-    sequelize
+  sequelize,
 };
