@@ -2,9 +2,8 @@
 const Sequelize = require('sequelize');
 
 // DB Connection Configuration
-
-const sequelize = new Sequelize('ddclrueuup70lk', 'ghgfgbeiuwwnnw', '24f33336603d473adc08deec730fe1235f91c84ff147d6def78ec9f1d8f53b3b', {
-    host: 'ec2-54-158-247-210.compute-1.amazonaws.com',
+const sequelize = new Sequelize('dbcps5l6ufq0bf', 'cohjqehtiqzjtt', 'b34383c894e401052b751949c3dfff47fb5ed71a55f3c9161cbbe85d9fb33e88', {
+    host: 'ec2-44-196-223-128.compute-1.amazonaws.com',
     dialect: 'postgres',
     dialectOptions: {
         ssl: {
