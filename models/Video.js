@@ -1,5 +1,6 @@
 const {DataTypes, Model} = require('sequelize');
 const {sequelize} = require('./DBConn');
+const Category = require('./Category');
 
 class Videos extends Model {}
 Videos.init (
@@ -31,5 +32,9 @@ Videos.init (
     }
 
 );
+
+Videos.belongsTo(Category, {
+    foreignKey: 'categoryid'
+});
 
 module.exports = Videos;
