@@ -12,7 +12,7 @@ module.exports = {
       data: null,
     };
 
-    //email exists?
+    //email exists??
     const user = await User.findOne({
       where: { email: email },
     });
