@@ -1,9 +1,8 @@
 //error handling
-const User = require("../models/User");
 const userService = require("../services/user.service");
 const Joi = require("@hapi/joi");
 
-//validation
+///validation
 const schema = Joi.object({
   email: Joi.string().min(6).required().email(),
   password: Joi.string().min(6).required(),
