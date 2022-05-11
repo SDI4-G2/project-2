@@ -18,12 +18,12 @@ Article.init(
     },
     url: {
       type: DataTypes.TEXT,
-      allowNull: true,
+      allowNull: false,
       field: 'url',
     },
     free_to_view: {
       type: DataTypes.BOOLEAN,
-      allowNull: true,
+      allowNull: false,
       field: 'free_to_view',
     },
   },
