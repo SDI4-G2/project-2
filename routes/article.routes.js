@@ -18,8 +18,8 @@ router.use('/', (req, res, next) => {
 
 router.get('/article', articleController.listAll);
 router.get('/article/:articleid', articleController.listOne);
-router.post('/article/edit', articleController.add);
-// router.put('/article/edit', articleController.update);
-// router.delete('/article/edit', articleController.erase);
+router.post('/article/', articleController.add);
+router.put('/article/:articleid', articleController.update);
+router.delete('/article/:articleid', articleController.erase);
 
 module.exports = router;
