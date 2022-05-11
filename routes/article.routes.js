@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
-const Article = require("../models/article");
-const ArticleController = require("../controllers/article.controller");
+// const Article = require("../models/article");
+// const ArticleController = require("../controllers/article.controller");
 
 // const articleController = new ArticleController();
 
