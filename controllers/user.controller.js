@@ -3,16 +3,47 @@ const User = require("../models/User");
 const userService = require("../services/user.service");
 const Joi = require("@hapi/joi");
 
-//validation
-const schema = Joi.object({
+// validation;
+const registerSchema = Joi.object({
   email: Joi.string().min(6).required().email(),
   password: Joi.string().min(6).required(),
+  username: Joi.string().min(6).required(),
 });
 
+const loginSchema = Joi.object({
+  email: Joi.string().min(6).email(),
+  password: Joi.string().min(6).required(),
+  username: Joi.string().min(6),
+}).xor("email", "username");
+
 class UserController {
+  async register(req, res) {
+    const { error } = registerSchema.validate(req.body);
+    if (error) return res.status(400).send(error.details[0].message);
+
+    const userCreate = req.body;
+    const result = await userService.register(userCreate);
+    res.status(result.status);
+    res.json({ message: result.message, data: result.data });
+
+    const user = new User({
+      email: req.body.email,
+      password: req.body.password,
+      username: req.body.username,
+      subscription: false,
+      role: "user",
+    });
+    try {
+      const savedUser = await user.save();
+      res.send(savedUser);
+    } catch (err) {
+      res.status(400).send(err);
+    }
+  }
+
   async userControl(req, res) {
     //validate data
-    const { error } = schema.validate(req.body);
+    const { error } = loginSchema.validate(req.body);
     // res.send(schema.validate(req.body));
     if (error) return res.status(400).send(error.details[0].message);
 

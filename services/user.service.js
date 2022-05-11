@@ -3,6 +3,27 @@
 const User = require("../models/User");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs/dist/bcrypt");
+const res = require("express/lib/response");
+
+module.exports = {
+  register: async (userCreate) => {
+    const result = {
+      status: null,
+      message: null,
+      data: null,
+    };
+
+    const emailExist = await User.findOne({
+      where: { email: userCreate.email },
+    });
+    if (emailExist) return res.status(400).send("Email Already Exists");
+
+    result.status = 200;
+    result.message = "User Created Successfully!";
+
+    return result;
+  },
+};
 
 module.exports = {
   userControl: async (email, password) => {
