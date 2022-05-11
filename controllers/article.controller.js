@@ -1,6 +1,4 @@
 const articleService = require('../services/article.service');
-const userService = require('../services/user.service');
-const authentication = require('../middleware/jwt.middleware');
 
 class ArticleController {
   // List all the Articles
@@ -29,7 +27,7 @@ class ArticleController {
 
   //Add Article
   async add(req, res) {
-    const { url, free_to_view } = req.body;
+    const { categoryid, url, free_to_view } = req.body;
 
     if (res.locals.user.role !== 'admin') {
       res.status(400);
