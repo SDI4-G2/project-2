@@ -1,7 +1,4 @@
-const res = require('express/lib/response');
 const Article = require('../models/Article');
-const Category = require('../models/Category');
-const { subscribe } = require('../routes/article.routes');
 
 module.exports = {
   listAll: async (subcription) => {
