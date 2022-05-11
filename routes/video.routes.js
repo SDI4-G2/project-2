@@ -18,5 +18,7 @@ router.use('/', (req, res, next) => {
 
 router.get('/video', videoController.getVideos);
 router.post('/video', videoController.insertVideos);
+router.put('/video/:id', videoController.updateVideos);
+router.delete('/video/:id', videoController.deleteVideos);
 
 module.exports = router;
