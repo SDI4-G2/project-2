@@ -21,24 +21,11 @@ class UserController {
     const { error } = registerSchema.validate(req.body);
     if (error) return res.status(400).send(error.details[0].message);
 
-    const userCreate = req.body;
-    const result = await userService.register(userCreate);
+    const { email, password, username } = req.body;
+
+    const result = await userService.register(email, password, username);
     res.status(result.status);
     res.json({ message: result.message, data: result.data });
-
-    const user = new User({
-      email: req.body.email,
-      password: req.body.password,
-      username: req.body.username,
-      subscription: false,
-      role: "user",
-    });
-    try {
-      const savedUser = await user.save();
-      res.send(savedUser);
-    } catch (err) {
-      res.status(400).send(err);
-    }
   }
 
   async userControl(req, res) {

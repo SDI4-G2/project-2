@@ -6,26 +6,52 @@ const bcrypt = require("bcryptjs/dist/bcrypt");
 const res = require("express/lib/response");
 
 module.exports = {
-  register: async (userCreate) => {
+  register: async (email, password, username) => {
     const result = {
       status: null,
       message: null,
-      data: null,
     };
 
-    const emailExist = await User.findOne({
-      where: { email: userCreate.email },
+    const saltRounds = 10;
+    const hashPassword = await bcrypt.hash(password, saltRounds);
+    const user = new User({
+      email: email,
+      password: hashPassword,
+      username: username,
+      subscription: false,
+      role: "user",
     });
-    if (emailExist) return res.status(400).send("Email Already Exists");
+    const emailExist = await User.findOne({
+      where: { email: user.email },
+    });
+    if (emailExist) {
+      result.status = 402;
+      result.message = `(${user.email}) Already Exists`;
+
+      return result;
+    }
+    const usernameExist = await User.findOne({
+      where: { username: user.username },
+    });
+    if (usernameExist) {
+      result.status = 401;
+      result.message = `(${user.username}) Already Exists`;
+
+      return result;
+    }
+
+    try {
+      await user.save();
+    } catch (err) {
+      result.status(err);
+    }
 
     result.status = 200;
-    result.message = "User Created Successfully!";
+    result.message = `${user.username} Created Successfully!`;
 
     return result;
   },
-};
 
-module.exports = {
   userControl: async (email, password) => {
     const result = {
       status: null,
