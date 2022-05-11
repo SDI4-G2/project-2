@@ -1,14 +1,22 @@
-const express = require("express");
+const express = require('express');
 const router = express.Router();
-const Article = require("../models/article");
-const ArticleController = require("../controllers/article.controller");
+const validator = require('../middleware/jwt.middleware');
 
-const articleController = new VehicleController();
+const ArticleController = require('../controllers/article.controller');
+const articleController = new ArticleController();
 
-router.get("/article", async (req, res) => {
-  res.send(await Article.findAll());
+router.use('/', (req, res, next) => {
+  const result = validator.authenticateToken(req.headers['authorization']);
+  if (result.status) {
+    res.status(result.status);
+    return res.json(result.message);
+  }
+  res.locals.user = result.data;
+
+  next();
 });
 
-router.get("/article/:articleId", articleController.list);
+router.get('/article', articleController.listAll);
+// router.get('/article/:articleId', articleController.list);
 
 module.exports = router;
