@@ -1,5 +1,4 @@
 //error handling
-const User = require("../models/User");
 const userService = require("../services/user.service");
 const Joi = require("@hapi/joi");
 
