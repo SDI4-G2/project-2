@@ -4,11 +4,63 @@ const User = require("../models/User");
 const { Op } = require("sequelize");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs/dist/bcrypt");
+
+const res = require("express/lib/response");
+
 const fs = require("fs");
 const privateKey = fs.readFileSync("./config/jwtRS256.key");
 
+
 module.exports = {
+
+  register: async (email, password, username) => {
+    const result = {
+      status: null,
+      message: null,
+    };
+
+    const saltRounds = 10;
+    const hashPassword = await bcrypt.hash(password, saltRounds);
+    const user = new User({
+      email: email,
+      password: hashPassword,
+      username: username,
+      subscription: false,
+      role: "user",
+    });
+    const emailExist = await User.findOne({
+      where: { email: user.email },
+    });
+    if (emailExist) {
+      result.status = 402;
+      result.message = `(${user.email}) Already Exists`;
+
+      return result;
+    }
+    const usernameExist = await User.findOne({
+      where: { username: user.username },
+    });
+    if (usernameExist) {
+      result.status = 401;
+      result.message = `(${user.username}) Already Exists`;
+
+      return result;
+    }
+
+    try {
+      await user.save();
+    } catch (err) {
+      result.status(err);
+    }
+
+    result.status = 200;
+    result.message = `${user.username} Created Successfully!`;
+
+    return result;
+  },
+
   userControl: async (email, password, username) => {
+
     const result = {
       status: null,
       message: null,

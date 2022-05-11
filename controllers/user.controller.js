@@ -14,7 +14,24 @@ const loginSchema = Joi.object({
   username: Joi.string().min(6),
 }).xor("email", "username");
 
+const loginSchema = Joi.object({
+  email: Joi.string().min(6).email(),
+  password: Joi.string().min(6).required(),
+  username: Joi.string().min(6),
+}).xor("email", "username");
+
 class UserController {
+  async register(req, res) {
+    const { error } = registerSchema.validate(req.body);
+    if (error) return res.status(400).send(error.details[0].message);
+
+    const { email, password, username } = req.body;
+
+    const result = await userService.register(email, password, username);
+    res.status(result.status);
+    res.json({ message: result.message, data: result.data });
+  }
+
   async userControl(req, res) {
     //validate data
     const { error } = loginSchema.validate(req.body);
