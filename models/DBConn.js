@@ -2,7 +2,6 @@
 const Sequelize = require("sequelize");
 
 // DB Connection Configuration
-
 const sequelize = new Sequelize(
   "dbcps5l6ufq0bf",
   "cohjqehtiqzjtt",
