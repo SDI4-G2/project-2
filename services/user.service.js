@@ -23,6 +23,7 @@ module.exports = {
     const validatePw = await bcrypt.compare(password, user.password);
     if (!validatePw) return res.status(400).send("Wrong password");
 
+    console.log(`user sub ${user.subscription}`);
     //create and assign jwt
     const token = jwt.sign(
       {
@@ -32,9 +33,9 @@ module.exports = {
         role: user.role,
       },
       process.env.TOKEN_SECRET,
-      {
-        expiresIn: "1h",
-      }
+      // {
+      //   expiresIn: 360,
+      // }
     );
     console.log(token);
 
