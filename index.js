@@ -1,6 +1,5 @@
 const { sequelize } = require("./models/User");
 const app = require("./routes/index"); // By default, it will look for index.js inside the folder
-require("dotenv").config();
 
 const PORT = 3000;
 const HOST = "127.0.0.1"; //localhost
