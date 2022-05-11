@@ -2,6 +2,8 @@
 const User = require("../models/User");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs/dist/bcrypt");
+const fs = require("fs");
+const privateKey = fs.readFileSync("./config/jwtRS256.key");
 
 module.exports = {
   userControl: async (email, password) => {
@@ -30,7 +32,7 @@ module.exports = {
         subscription: user.subscription,
         role: user.role,
       },
-      process.env.TOKEN_SECRET,
+      privateKey,
       {
         expiresIn: "1h",
       }
