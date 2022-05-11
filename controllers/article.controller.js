@@ -1,6 +1,4 @@
 const articleService = require('../services/article.service');
-const userService = require('../services/user.service');
-const authentication = require('../middleware/jwt.middleware');
 
 class ArticleController {
   async listAll(req, res) {
@@ -26,11 +24,17 @@ class ArticleController {
   }
 
   async add(req, res) {
-    const { url, free_to_view } = req.body;
+    const { categoryid, url, free_to_view } = req.body;
 
     if (res.locals.user.role !== 'admin') {
       res.status(400);
       res.send('Please login via admin credentials.');
+      return;
+    }
+
+    if (!url || free_to_view == null) {
+      res.status(400);
+      res.send('Please enter url and free_to_view in Body JSON format.');
       return;
     }
 
@@ -48,7 +52,36 @@ class ArticleController {
       return;
     }
 
-    const { status, data, message } = await articleService.add(url, free_to_view);
+    const { status, data, message } = await articleService.add({ categoryid, url, free_to_view }).catch(function (err) {
+      res.send({
+        Message: 'Enter valid categoryid, articleid, url or free_to_view.',
+      });
+    });
+
+    res.status(status);
+    res.json({ message, data });
+  }
+
+  async update(req, res) {
+    const { articleid, categoryid, url, free_to_view } = req.body;
+
+    if (res.locals.user.role !== 'admin') {
+      res.status(400);
+      res.send('Please login via admin credentials.');
+      return;
+    }
+
+    if (!articleid) {
+      res.status(400);
+      res.send('Please enter articleid and its value in Body JSON format.');
+      return;
+    }
+
+    const { status, data, message } = await articleService.update({ articleid, categoryid, url, free_to_view }).catch(function (err) {
+      res.send({
+        Message: 'Enter valid categoryid, articleid, url or free_to_view.',
+      });
+    });
 
     res.status(status);
     res.json({ message, data });
