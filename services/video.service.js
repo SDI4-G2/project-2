@@ -45,17 +45,25 @@ module.exports = {
             return result;
         }
 
-        const newVideo = await Videos.create({
-            categoryid: videoJson.category_id,
-            url: videoJson.url,
-            freeToView: videoJson.free_to_view
-        });
+        try {
+            const newVideo = await Videos.create({
+                categoryid: videoJson.category_id,
+                url: videoJson.url,
+                freeToView: videoJson.free_to_view
+            });
 
-        await newVideo.save();
-        result.status = 200;
-        result.message = `Record insert successfully`;
-        result.data = newVideo;
-        return result;
+            await newVideo.save();
+            result.status = 200;
+            result.message = `Record insert successfully`;
+            result.data = newVideo;
+            return result;
+
+        } catch (err) {
+            result.status = 403;
+            result.message = `Insertion Failure!`;
+            result.data = err.name;
+            return result;
+        }
     },
 
     updateVideos: async (role, videoJson, videoid) => {
@@ -91,7 +99,7 @@ module.exports = {
 
             }
         } catch (err) {
-            console.log(err);
+            
             result.status = 403;
             result.message = `Update Failure!`;
             result.data = err.name;
