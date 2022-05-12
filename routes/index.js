@@ -6,6 +6,9 @@ app.use(express.json());
 const userRoutes = require("./user.routes");
 app.use(userRoutes);
 
+const categoryRoutes = require("./category.routes");
+app.use(categoryRoutes);
+
 const videoRoutes = require("./video.routes");
 app.use(videoRoutes);
 
