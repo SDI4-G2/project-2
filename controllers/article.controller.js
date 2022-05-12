@@ -88,6 +88,12 @@ class ArticleController {
       return;
     }
 
+    if (!categoryid || !url || free_to_view == null) {
+      res.status(400);
+      res.send('Please enter categoryid, url and free_to_view in Body JSON format.');
+      return;
+    }
+
     if (typeof categoryid !== 'number') {
       res.status(400);
       res.send('categoryid should be an integer.');
