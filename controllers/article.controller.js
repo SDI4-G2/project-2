@@ -88,6 +88,26 @@ class ArticleController {
       return;
     }
 
+    if (typeof categoryid !== 'number') {
+      res.status(400);
+      res.send('categoryid should be an integer.');
+      return;
+    }
+
+    if (typeof free_to_view !== 'boolean') {
+      res.status(400);
+      res.send('free_to_view should be either true or false.');
+      return;
+    }
+
+    if (
+      /^(http:\/\/www\.|https:\/\/www\.|http:\/\/|https:\/\/)?[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,5}(:[0-9]{1,5})?(\/.*)?$/.test(url) === false
+    ) {
+      res.status(400);
+      res.send('URL should be in HTML format (e.g. https://xxxxx.yyy)');
+      return;
+    }
+
     const { status, data, message } = await articleService.update(reqArticleId, { categoryid, url, free_to_view }).catch(function (err) {
       res.send({
         Message: 'Enter valid categoryid, articleid, url or free_to_view.',
