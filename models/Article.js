@@ -13,7 +13,7 @@ Article.init(
     },
     categoryid: {
       type: DataTypes.SMALLINT,
-      allowNull: true,
+      allowNull: false,
       field: 'categoryid',
     },
     url: {
