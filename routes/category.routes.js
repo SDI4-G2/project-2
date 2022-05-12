@@ -1,5 +1,6 @@
 const express = require('express');
 const router = express.Router();
+const validator = require('../middleware/jwt.middleware');
 
 const CategoryController = require("../controllers/category.controller");
 
