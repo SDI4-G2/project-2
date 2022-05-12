@@ -64,18 +64,6 @@ module.exports = {
             result.data = err.name;
             return result;
         }
-
-        // const newVideo = await Videos.create({
-        //     categoryid: videoJson.category_id,
-        //     url: videoJson.url,
-        //     freeToView: videoJson.free_to_view
-        // });
-
-        // await newVideo.save();
-        // result.status = 200;
-        // result.message = `Record insert successfully`;
-        // result.data = newVideo;
-        // return result;
     },
 
     updateVideos: async (role, videoJson, videoid) => {
