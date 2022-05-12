@@ -29,9 +29,14 @@ class UserController {
 
   async userControl(req, res) {
     //validate data
-    const { error } = loginSchema.validate(req.body);
-    // res.send(schema.validate(req.body));
-    if (error) return res.status(400).send(error.details[0].message);
+
+    if (req.body.email || req.body.username) {
+      const { error } = loginSchema.validate(req.body);
+      // res.send(schema.validate(req.body));
+      if (error) return res.status(400).send(error.details[0].message);
+    } else {
+      return res.status(400).send("Username or Email required");
+    }
 
     const { email, password, username } = req.body; //for the line below this to use in services
     const { status, data, message } = await userService.userControl(
