@@ -1,4 +1,5 @@
 const Article = require('../models/Article');
+const Category = require('../models/Category');
 
 module.exports = {
   listAll: async (subcription) => {
@@ -7,7 +8,10 @@ module.exports = {
       message: null,
       data: null,
     };
-    const article = await Article.findAll({ where: { free_to_view: [!subcription, 'true'] } });
+    const article = await Article.findAll({
+      where: { free_to_view: [!subcription, 'true'] },
+      include: [{ model: Category, attributes: ['description'] }],
+    });
 
     result.status = 200;
     result.message = 'Displayed successfully';
@@ -22,7 +26,10 @@ module.exports = {
       message: null,
       data: null,
     };
-    const article = await Article.findOne({ where: { articleid: reqArticleId, free_to_view: [!subcription, 'true'] } });
+    const article = await Article.findOne({
+      where: { articleid: reqArticleId, free_to_view: [!subcription, 'true'] },
+      include: [{ model: Category, attributes: ['description'] }],
+    });
 
     result.status = 200;
     result.message = 'Displayed successfully';
