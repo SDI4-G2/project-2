@@ -10,9 +10,7 @@ const res = require("express/lib/response");
 const fs = require("fs");
 const privateKey = fs.readFileSync("./config/jwtRS256.key");
 
-
 module.exports = {
-
   register: async (email, password, username) => {
     const result = {
       status: null,
@@ -60,7 +58,6 @@ module.exports = {
   },
 
   userControl: async (email, password, username) => {
-
     const result = {
       status: null,
       message: null,
@@ -90,13 +87,11 @@ module.exports = {
 
     //password is correct?
     const validatePw = await bcrypt.compare(password, user.password);
-
     if (!validatePw) {
       result.status = 400;
       result.message = "Wrong password";
       return result;
     }
-
     //create and assign jwt
     const token = jwt.sign(
       {
