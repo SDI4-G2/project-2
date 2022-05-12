@@ -24,7 +24,7 @@ module.exports = {
 
         try {
             // decoded = jwt.verify(jwtToken, privateKey, {algorithms: "RS256"})
-            decoded = jwt.verify(jwtToken, process.env.TOKEN_SECRET)
+            decoded = jwt.verify(jwtToken, privateKey)
         } catch (err) {
             result.status = 403;
             result.message = `Login Timeout!`;

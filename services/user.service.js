@@ -90,13 +90,11 @@ module.exports = {
 
     //password is correct?
     const validatePw = await bcrypt.compare(password, user.password);
-
     if (!validatePw) {
       result.status = 400;
       result.message = "Wrong password";
       return result;
     }
-
     //create and assign jwt
     const token = jwt.sign(
       {
