@@ -1,4 +1,5 @@
-const { Category } = require("../models/DBConn");
+const Category = require('../models/Category');
+
 
 module.exports = {
     allcategory: async () => {
