@@ -34,6 +34,33 @@ class VideoController {
         res.status(result.status);
         res.json({message: result.message, data: result.data});
     }
+
+    async updateVideos(req, res) {
+        const videoid = req.params.id;
+        const videoJson = req.body;
+        const role = res.locals.user.role;
+
+        if (!req.body.category_id && !req.body.url && !req.body.free_to_view) {
+            return res.status(400).json({msg: 'Enter values for category id, url & free to view'});
+        }
+
+        const result = await videoService.updateVideos(role, videoJson, videoid)
+
+        res.status(result.status);
+        res.json({message: result.message, data: result.data});
+
+    }
+
+    async deleteVideos(req, res) {
+        const videoid = req.params.id;
+        const role = res.locals.user.role;
+
+        const result = await videoService.deleteVideos(role, videoid)
+
+        res.status(result.status);
+        res.json({message: result.message, data: result.data});
+
+    }
 }
 
 module.exports = VideoController;
