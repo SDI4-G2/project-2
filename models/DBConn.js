@@ -1,7 +1,7 @@
 // Import sequelize
 const Sequelize = require("sequelize");
 
-// DB Connection Configuration
+/// DB Connection Configuration
 const sequelize = new Sequelize(
   "dbcps5l6ufq0bf",
   "cohjqehtiqzjtt",
@@ -26,13 +26,12 @@ const sequelize = new Sequelize(
 sequelize
   .authenticate()
   .then(() => {
-    console.log('DB Connection Successful');
+    console.log("DB Connection Successful");
   })
   .catch((err) => {
-    console.log('DB Connection Failed', err);
-
+    console.log("DB Connection Failed", err);
   });
 
 module.exports = {
-  sequelize, 
+  sequelize,
 };
