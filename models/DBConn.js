@@ -22,6 +22,14 @@ const sequelize = new Sequelize(
   }
 );
 
+// const sequelize = new Sequelize('m3_project', 'postgres', 'password', {
+//   dialect: 'postgres',
+//   define: {
+//       timestamps: false,
+//       freezeTableName: true
+//   }
+// });
+
 // Test DB connection
 sequelize
   .authenticate()
