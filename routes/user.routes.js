@@ -4,7 +4,6 @@ const userController = new UserController();
 
 const router = require("express").Router();
 
-
 router.get("/testing", function (req, res) {
   res.send("testing");
 });
