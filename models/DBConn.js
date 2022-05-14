@@ -2,13 +2,28 @@
 const Sequelize = require('sequelize');
 
 /// DB Connection Configuration
-const sequelize = new Sequelize('m3_project', 'postgres', 'password', {
+const sequelize = new Sequelize({
+  host: 'ec2-44-196-223-128.compute-1.amazonaws.com',
   dialect: 'postgres',
+  dialectOptions: {
+    ssl: {
+      require: true,
+      rejectUnauthorized: false,
+    },
+  },
   define: {
     timestamps: false,
     freezeTableName: true,
   },
 });
+
+// const sequelize = new Sequelize('m3_project', 'postgres', 'password', {
+//   dialect: 'postgres',
+//   define: {
+//       timestamps: false,
+//       freezeTableName: true
+//   }
+// });
 
 // Test DB connection
 sequelize
