@@ -2,8 +2,7 @@
 const Sequelize = require('sequelize');
 
 /// DB Connection Configuration
-const sequelize = new Sequelize({
-  host: 'ec2-44-196-223-128.compute-1.amazonaws.com',
+const sequelize = new Sequelize(process.env.DATABASE_URL, {
   dialect: 'postgres',
   dialectOptions: {
     ssl: {
