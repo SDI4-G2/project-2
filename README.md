@@ -1,4 +1,4 @@
-# Module 3 - Project
+# Module 3 Project - Heroku Postgres database
 
 |#|Path|Description|
 |-|----|-----------|
