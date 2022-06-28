@@ -16,6 +16,7 @@ router.use('/', (req, res, next) => {
     next();
 })
 
+router.post('/create-payment-intent', paymentController.createPaymentIntent);
 router.post('/payment', paymentController.insertPayment);
 
 module.exports = router;
