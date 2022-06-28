@@ -2,7 +2,6 @@ const paymentService = require('../services/payment.service');
 
 const PUBLISHABLE_KEY = "pk_test_51LEjuRAfZxkm95kPjgIpndtLpAKOkhmJQJg2pf9iAglCHxqlLg20DPosvYrcgydkHTCr5tPECLzPalnjHRnEtBdE00oK5ZHOmO";
 const SECRET_KEY = "sk_test_51LEjuRAfZxkm95kPGxK6yaYR2VKhIeZwkYXhLGGc1q75E5G4hjcTLHV3lrr3cdyViQ1OD2GpwDbT6RhHdfht0Dns00DLi0jihC";
-
 const Stripe = require('stripe');
 
 //Confirm the API version from stripe dashboard
