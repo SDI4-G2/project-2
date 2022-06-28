@@ -2,8 +2,8 @@ const express = require('express');
 const router = express.Router();
 const validator = require('../middleware/jwt.middleware');
 
-const VideoController = require('../controllers/video.controller');
-const videoController = new VideoController();
+const PaymentController = require('../controllers/payment.controller');
+const PaymentController = new PaymentController();
 
 router.use('/', (req, res, next) => {
     const result = validator.authenticateToken(req.headers['authorization']);
@@ -16,9 +16,6 @@ router.use('/', (req, res, next) => {
     next();
 })
 
-router.get('/video', videoController.getVideos);
-router.post('/video', videoController.insertVideos);
-router.put('/video/:id', videoController.updateVideos);
-router.delete('/video/:id', videoController.deleteVideos);
+router.post('/payment', PaymentController.insertPayment);
 
 module.exports = router;

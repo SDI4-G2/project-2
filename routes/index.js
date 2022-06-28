@@ -15,4 +15,7 @@ app.use(videoRoutes);
 const articleRoutes = require('./article.routes');
 app.use(articleRoutes);
 
+const paymentRoutes = require('./payment.routes');
+app.use(paymentRoutes);
+
 module.exports = app;
