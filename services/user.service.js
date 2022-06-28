@@ -126,7 +126,7 @@ module.exports = {
 
     //Validate new username is not being used in database
     const usernameExist = await User.findOne({
-      where: { username: user.username },
+      where: { username: username },
     });
     if (usernameExist) {
       result.status = 401;
@@ -143,11 +143,7 @@ module.exports = {
       return result;
     }
 
-    // const saltRounds = 10;
-    // const hashPassword = await bcrypt.hash(password, saltRounds);
-
     user.username = username;
-    // user.password = hashPassword;
     await user.save();
 
     result.status = 200;
