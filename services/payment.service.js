@@ -7,17 +7,11 @@ Payment.sync().then((data) => {
 });
 
 module.exports = {
-    insertPayment: async (role, paymentJson) => {
+    insertPayment: async (paymentJson) => {
         const result = {
             status: null,
             message: null,
             data: null
-        }
-
-        if (role != 'admin') {
-            result.status = 401;
-            result.message = `Unauthorized access`;
-            return result;
         }
 
         try {
