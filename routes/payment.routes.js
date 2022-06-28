@@ -3,7 +3,7 @@ const router = express.Router();
 const validator = require('../middleware/jwt.middleware');
 
 const PaymentController = require('../controllers/payment.controller');
-const PaymentController = new PaymentController();
+const paymentController = new PaymentController();
 
 router.use('/', (req, res, next) => {
     const result = validator.authenticateToken(req.headers['authorization']);
@@ -16,6 +16,6 @@ router.use('/', (req, res, next) => {
     next();
 })
 
-router.post('/payment', PaymentController.insertPayment);
+router.post('/payment', paymentController.insertPayment);
 
 module.exports = router;
