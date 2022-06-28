@@ -20,6 +20,5 @@ router.get('/video', videoController.getVideos);
 router.post('/video', videoController.insertVideos);
 router.put('/video/:id', videoController.updateVideos);
 router.delete('/video/:id', videoController.deleteVideos);
-router.get('/videos', videoController.getVideos);
 
 module.exports = router;
