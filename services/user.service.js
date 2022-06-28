@@ -1,14 +1,14 @@
 //when successful / no errors
 
-const User = require("../models/User");
-const { Op } = require("sequelize");
-const jwt = require("jsonwebtoken");
-const bcrypt = require("bcryptjs/dist/bcrypt");
+const User = require('../models/User');
+const { Op } = require('sequelize');
+const jwt = require('jsonwebtoken');
+const bcrypt = require('bcryptjs/dist/bcrypt');
 
-const res = require("express/lib/response");
+const res = require('express/lib/response');
 
-const fs = require("fs");
-const privateKey = fs.readFileSync("./config/jwtRS256.key");
+const fs = require('fs');
+const privateKey = fs.readFileSync('./config/jwtRS256.key');
 
 module.exports = {
   register: async (email, password, username) => {
@@ -24,7 +24,7 @@ module.exports = {
       password: hashPassword,
       username: username,
       subscription: false,
-      role: "user",
+      role: 'user',
     });
     const emailExist = await User.findOne({
       where: { email: user.email },
@@ -67,10 +67,7 @@ module.exports = {
     //email/username exists??
     let user = await User.findOne({
       where: {
-        [Op.or]: [
-          { username: { [Op.eq]: username } },
-          { email: { [Op.eq]: email } },
-        ],
+        [Op.or]: [{ username: { [Op.eq]: username } }, { email: { [Op.eq]: email } }],
       },
     });
     // documentation =
@@ -81,7 +78,7 @@ module.exports = {
 
     if (!user) {
       result.status = 400;
-      result.message = "Username or email not found";
+      result.message = 'Username or email not found';
       return result;
     }
 
@@ -89,7 +86,7 @@ module.exports = {
     const validatePw = await bcrypt.compare(password, user.password);
     if (!validatePw) {
       result.status = 400;
-      result.message = "Wrong password";
+      result.message = 'Wrong password';
       return result;
     }
     //create and assign jwt
@@ -103,14 +100,92 @@ module.exports = {
       },
       privateKey,
       {
-        expiresIn: "1h",
+        expiresIn: '1h',
       }
     );
     console.log(token);
 
     result.status = 200;
-    result.message = "Token successfully created!";
+    result.message = 'Token successfully created!';
     result.data = token;
+
+    return result;
+  },
+
+  editUsername: async (email, password, username) => {
+    const result = {
+      status: null,
+      message: null,
+      data: null,
+    };
+
+    //Find user
+    const user = await User.findOne({
+      where: { email: email },
+    });
+
+    //Validate new username is not being used in database
+    const usernameExist = await User.findOne({
+      where: { username: user.username },
+    });
+    if (usernameExist) {
+      result.status = 401;
+      result.message = `(${user.username}) Already Exists`;
+
+      return result;
+    }
+
+    //Validate password
+    const validatePw = await bcrypt.compare(password, user.password);
+    if (!validatePw) {
+      result.status = 400;
+      result.message = 'Wrong password';
+      return result;
+    }
+
+    // const saltRounds = 10;
+    // const hashPassword = await bcrypt.hash(password, saltRounds);
+
+    user.username = username;
+    // user.password = hashPassword;
+    await user.save();
+
+    result.status = 200;
+    result.message = 'Updated successfully';
+    result.data = user;
+
+    return result;
+  },
+
+  editPassword: async (email, password, newpassword) => {
+    const result = {
+      status: null,
+      message: null,
+      data: null,
+    };
+
+    //Find user
+    const user = await User.findOne({
+      where: { email: email },
+    });
+
+    //Validate password
+    const validatePw = await bcrypt.compare(password, user.password);
+    if (!validatePw) {
+      result.status = 400;
+      result.message = 'Wrong password';
+      return result;
+    }
+
+    const saltRounds = 10;
+    const hashPassword = await bcrypt.hash(newpassword, saltRounds);
+
+    user.password = hashPassword;
+    await user.save();
+
+    result.status = 200;
+    result.message = 'Updated successfully';
+    result.data = user;
 
     return result;
   },
