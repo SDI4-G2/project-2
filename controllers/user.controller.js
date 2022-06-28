@@ -1,6 +1,6 @@
 //error handling
-const userService = require("../services/user.service");
-const Joi = require("@hapi/joi");
+const userService = require('../services/user.service');
+const Joi = require('@hapi/joi');
 
 // validation;
 const registerSchema = Joi.object({
@@ -13,7 +13,7 @@ const loginSchema = Joi.object({
   email: Joi.string().min(6).email(),
   password: Joi.string().min(6).required(),
   username: Joi.string().min(6),
-}).xor("email", "username");
+}).xor('email', 'username');
 
 class UserController {
   async register(req, res) {
@@ -35,17 +35,45 @@ class UserController {
       // res.send(schema.validate(req.body));
       if (error) return res.status(400).send(error.details[0].message);
     } else {
-      return res.status(400).send("Username or Email required");
+      return res.status(400).send('Username or Email required');
     }
 
     const { email, password, username } = req.body; //for the line below this to use in services
-    const { status, data, message } = await userService.userControl(
-      email,
-      password,
-      username
-    );
+    const { status, data, message } = await userService.userControl(email, password, username);
     res.status(status);
     res.json({ message, data });
+  }
+
+  async editUsername(req, res) {
+    if (req.body.username || req.body.password || req.body.email) {
+      const { error } = loginSchema.validate(req.body);
+      // res.send(schema.validate(req.body));
+      if (error) return res.status(400).send(error.details[0].message);
+    } else {
+      return res.status(400).send('Username, Password or Email required');
+    }
+
+    const { email, password, username } = req.body;
+
+    const result = await userService.editUsername(email, password, username);
+    res.status(result.status);
+    res.json({ message: result.message, data: result.data });
+  }
+
+  async editPassword(req, res) {
+    if (req.body.password || req.body.email || req.body.newpassword) {
+      const { error } = loginSchema.validate(req.body);
+      // res.send(schema.validate(req.body));
+      if (error) return res.status(400).send(error.details[0].message);
+    } else {
+      return res.status(400).send('Old/New Password or Email required');
+    }
+
+    const { email, password, newpassword } = req.body;
+
+    const result = await userService.editPassword(email, password, newpassword);
+    res.status(result.status);
+    res.json({ message: result.message, data: result.data });
   }
 }
 
