@@ -45,10 +45,11 @@ class UserController {
   }
 
   async editUsername(req, res) {
-    if (!req.body.username || !req.body.password || !req.body.email) {
-      res.status(400);
-      res.send('Username, Password or Email required.');
-      return;
+    if (req.body.email || req.body.username) {
+      const { error } = loginSchema.validate(req.body);
+      if (error) return res.status(400).send(error.details[0].message);
+    } else {
+      return res.status(400).send('Username and Email required');
     }
 
     const { email, password, username } = req.body;
@@ -59,10 +60,11 @@ class UserController {
   }
 
   async editPassword(req, res) {
-    if (!req.body.newpassword || !req.body.password || !req.body.email) {
-      res.status(400);
-      res.send('Username & new/old Password required.');
-      return;
+    if (req.body.email) {
+      const { error } = loginSchema.validate(req.body);
+      if (error) return res.status(400).send(error.details[0].message);
+    } else {
+      return res.status(400).send('Email required');
     }
 
     const { email, password, newpassword } = req.body;

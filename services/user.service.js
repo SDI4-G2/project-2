@@ -124,6 +124,14 @@ module.exports = {
       where: { email: email },
     });
 
+    //Validate password
+    const validatePw = await bcrypt.compare(password, user.password);
+    if (!validatePw) {
+      result.status = 400;
+      result.message = 'Wrong password';
+      return result;
+    }
+
     //Validate new username is not being used in database
     const usernameExist = await User.findOne({
       where: { username: username },
@@ -132,14 +140,6 @@ module.exports = {
       result.status = 401;
       result.message = `(${user.username}) Already Exists`;
 
-      return result;
-    }
-
-    //Validate password
-    const validatePw = await bcrypt.compare(password, user.password);
-    if (!validatePw) {
-      result.status = 400;
-      result.message = 'Wrong password';
       return result;
     }
 
