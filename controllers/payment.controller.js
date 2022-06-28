@@ -3,7 +3,7 @@ const paymentService = require('../services/payment.service');
 class PaymentController {
     async insertPayment(req, res) {
         const paymentJson = req.body;
-
+        
         if (!req.body.userid && !req.body.stripeid) {
             return res.status(400).json({msg: 'Enter values for user id and payment id'});
         }

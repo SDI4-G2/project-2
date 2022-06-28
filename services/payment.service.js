@@ -29,7 +29,7 @@ module.exports = {
         } catch (err) {
             result.status = 403;
             result.message = `Insertion Failure!`;
-            result.data = err.name;
+            result.data = err;
             return result;
         }
     }
