@@ -5,16 +5,16 @@ class PaymentController {
         const paymentJson = req.body;
         const role = res.locals.user.role;
 
-        if (!req.body.user_id && !req.body.payment_id) {
+        if (!req.body.userid && !req.body.stripeid) {
             return res.status(400).json({msg: 'Enter values for user id and payment id'});
         }
 
-        if (!req.body.user_id) {
+        if (!req.body.userid) {
             return res.status(400).json({msg: 'Enter values for user id'});
         }
 
-        if (!req.body.payment_id) {
-            return res.status(400).json({msg: 'Enter values for payment id'});
+        if (!req.body.stripeid) {
+            return res.status(400).json({msg: 'Enter values for stripe id'});
         }
 
         const result = await paymentService.insertPayment(role, paymentJson)
