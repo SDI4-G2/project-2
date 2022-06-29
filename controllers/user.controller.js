@@ -84,7 +84,7 @@ class UserController {
 
     const { email, subscription } = req.body;
 
-    const result = await userService.updateSubscription(email, username);
+    const result = await userService.updateSubscription(email, subscription);
     res.status(result.status);
     res.json({ message: result.message, data: result.data });
   }
