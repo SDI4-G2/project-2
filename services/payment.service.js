@@ -16,7 +16,7 @@ module.exports = {
 
         try {
             const newPayment = await Payment.create({
-                userid: paymentJson.userid,
+                useremail: paymentJson.useremail,
                 stripeid: paymentJson.stripeid
             });
 

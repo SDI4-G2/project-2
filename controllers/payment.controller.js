@@ -30,12 +30,12 @@ class PaymentController {
     async insertPayment(req, res) {
         const paymentJson = req.body;
         
-        if (!req.body.userid && !req.body.stripeid) {
-            return res.status(400).json({msg: 'Enter values for user id and payment id'});
+        if (!req.body.useremail && !req.body.stripeid) {
+            return res.status(400).json({msg: 'Enter values for user email and payment id'});
         }
 
-        if (!req.body.userid) {
-            return res.status(400).json({msg: 'Enter values for user id'});
+        if (!req.body.useremail) {
+            return res.status(400).json({msg: 'Enter values for user email'});
         }
 
         if (!req.body.stripeid) {

@@ -10,8 +10,8 @@ Payment.init (
             primaryKey: true,
             autoIncrement: true
         },
-        userid: {
-            type: DataTypes.INTEGER,
+        useremail: {
+            type: DataTypes.STRING,
             allowNull: false
         },
         stripeid: {
