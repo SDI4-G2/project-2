@@ -75,7 +75,7 @@ class UserController {
   }
 
   async updateSubscription(req, res) {
-    if (req.body.email || req.body.username) {
+    if (req.body.email) {
       const { error } = loginSchema.validate(req.body);
       if (error) return res.status(400).send(error.details[0].message);
     } else {
