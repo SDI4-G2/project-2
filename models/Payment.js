@@ -28,7 +28,7 @@ Payment.init (
 );
 
 Payment.belongsTo(User, {
-    foreignKey: 'userid'
+    foreignKey: 'useremail'
 });
 
 module.exports = Payment;
