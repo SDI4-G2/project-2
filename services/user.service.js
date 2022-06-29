@@ -185,4 +185,26 @@ module.exports = {
 
     return result;
   },
+
+  updateSubscription: async (email, subscription) => {
+    const result = {
+      status: null,
+      message: null,
+      data: null,
+    };
+
+    //Find user
+    const user = await User.findOne({
+      where: { email: email },
+    });
+
+    user.subscription = subscription;
+    await user.save();
+
+    result.status = 200;
+    result.message = 'Subscription update successfully';
+    result.data = user;
+
+    return result;
+  },
 };

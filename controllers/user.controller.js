@@ -73,6 +73,21 @@ class UserController {
     res.status(result.status);
     res.json({ message: result.message, data: result.data });
   }
+
+  async updateSubscription(req, res) {
+    if (req.body.email || req.body.username) {
+      const { error } = loginSchema.validate(req.body);
+      if (error) return res.status(400).send(error.details[0].message);
+    } else {
+      return res.status(400).send('Username and Email required');
+    }
+
+    const { email, subscription } = req.body;
+
+    const result = await userService.updateSubscription(email, username);
+    res.status(result.status);
+    res.json({ message: result.message, data: result.data });
+  }
 }
 
 module.exports = UserController;
