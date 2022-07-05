@@ -13,5 +13,6 @@ router.post('/login', userController.userControl);
 router.put('/editusername', userController.editUsername);
 router.put('/editpassword', userController.editPassword);
 router.put('/update-subscription', userController.updateSubscription);
+router.put('/status-subscription', userController.statusSubscription);
 
 module.exports = router;

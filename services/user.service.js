@@ -207,4 +207,23 @@ module.exports = {
 
     return result;
   },
+
+  getStatusSubscription: async (email) => {
+    const result = {
+      status: null,
+      message: null,
+      data: null,
+    };
+
+    //Find user
+    const user = await User.findOne({
+      where: { email: email },
+    });
+
+    result.status = 200;
+    result.message = 'Fetch successful';
+    result.data = user;
+
+    return result;
+  },
 };

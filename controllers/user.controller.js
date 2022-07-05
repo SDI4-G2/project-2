@@ -89,6 +89,18 @@ class UserController {
     res.status(result.status);
     res.json({ message: result.message, data: result.data });
   }
+
+  async statusSubscription(req, res) {
+    if (!req.body.email) {
+      return res.status(400).send('Email required');
+    }
+
+    const { email, subscription } = req.body;
+
+    const result = await userService.getStatusSubscription(email, subscription);
+    res.status(result.status);
+    res.json({ message: result.message, data: result.data });
+  }
 }
 
 module.exports = UserController;
