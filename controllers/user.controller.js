@@ -95,7 +95,7 @@ class UserController {
       return res.status(400).send('Email required');
     }
 
-    const { email, subscription } = req.body;
+    const { email } = req.body;
 
     const result = await userService.getStatusSubscription(email);
     res.status(result.status);
