@@ -146,9 +146,23 @@ module.exports = {
     user.username = username;
     await user.save();
 
+    const token = jwt.sign(
+      {
+        email: user.email,
+        username: user.username,
+        password: user.password,
+        subscription: user.subscription,
+        role: user.role,
+      },
+      privateKey,
+      {
+        expiresIn: '1h',
+      }
+    );
+
     result.status = 200;
     result.message = 'Updated successfully';
-    result.data = user;
+    result.data = token;
 
     return result;
   },
@@ -179,9 +193,23 @@ module.exports = {
     user.password = hashPassword;
     await user.save();
 
+    const token = jwt.sign(
+      {
+        email: user.email,
+        username: user.username,
+        password: user.password,
+        subscription: user.subscription,
+        role: user.role,
+      },
+      privateKey,
+      {
+        expiresIn: '1h',
+      }
+    );
+
     result.status = 200;
     result.message = 'Updated successfully';
-    result.data = user;
+    result.data = token;
 
     return result;
   },
