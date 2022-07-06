@@ -26,6 +26,11 @@ Article.init(
       allowNull: false,
       field: 'free_to_view',
     },
+    pdf: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      field: 'pdf',
+    },
   },
   {
     sequelize,
