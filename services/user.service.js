@@ -201,9 +201,23 @@ module.exports = {
     user.subscription = subscription;
     await user.save();
 
+    const token = jwt.sign(
+      {
+        email: user.email,
+        username: user.username,
+        password: user.password,
+        subscription: user.subscription,
+        role: user.role,
+      },
+      privateKey,
+      {
+        expiresIn: '1h',
+      }
+    );
+
     result.status = 200;
     result.message = 'Subscription update successfully';
-    result.data = user;
+    result.data = token;
 
     return result;
   },
