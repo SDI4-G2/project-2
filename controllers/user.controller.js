@@ -56,6 +56,23 @@ class UserController {
     res.json({ message, data });
   }
 
+  async forgotPw(req, res) {
+    //validate data
+
+    if (req.body.email) {
+      const { error } = loginSchema.validate(req.body);
+      // res.send(schema.validate(req.body));
+      if (error) return res.status(400).send(error.details[0].message);
+    } else {
+      return res.status(400).send('Email required');
+    }
+
+    const { email } = req.body; //for the line below this to use in services
+    const { status, data, message } = await userService.forgotPw(email);
+    res.status(status);
+    res.json({ message, data });
+  }
+
   async editUsername(req, res) {
     const { error } = editUsernameSchema.validate(req.body);
     if (error) return res.status(400).send(error.details[0].message);

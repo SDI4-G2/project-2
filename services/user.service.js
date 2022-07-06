@@ -112,6 +112,53 @@ module.exports = {
     return result;
   },
 
+  forgotPw: async (email) => {
+    const result = {
+      status: null,
+      message: null,
+      data: null,
+    };
+
+    //email/username exists??
+    let user = await User.findOne({
+      where: { email: email },
+    });
+    // documentation =
+    // [Op.or]:[
+    // { username: username },
+    // { email: email }, ]
+    // does not work because there is a bug
+
+    if (!user) {
+      result.status = 400;
+      result.message = 'Email not found';
+      return result;
+    }
+
+    const randomDigit = Math.floor(100000 + Math.random() * 900000);
+
+    //create and assign jwt
+    // const token2 = jwt.sign(
+    //   {
+    //     email: user.email,
+    //     username: user.username,
+    //     code: randomDigit
+    //   },
+    //   privateKey,
+    //   {
+    //     expiresIn: '1h',
+    //   }
+    // );
+
+    // console.log(token2);
+
+    result.status = 200;
+    result.message = 'Token Forgot Password successfully created!';
+    result.data = randomDigit;
+
+    return result;
+  },
+
   editUsername: async (email, password, username) => {
     const result = {
       status: null,
