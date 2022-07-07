@@ -152,6 +152,37 @@ module.exports = {
     return result;
   },
 
+  resetPassword: async (email, password, confirmpassword) => {
+    const result = {
+      status: null,
+      message: null,
+      data: null,
+    };
+
+    //Find user
+    const user = await User.findOne({
+      where: { email: email },
+    });
+
+    //Validate password
+    if (password != confirmpassword) {
+      result.status = 400;
+      result.message = 'Confirm password not match!';
+      return result;
+    }
+
+    const saltRounds = 10;
+    const hashPassword = await bcrypt.hash(password, saltRounds);
+
+    user.password = hashPassword;
+    await user.save();
+
+    result.status = 200;
+    result.message = 'Updated successfully';
+
+    return result;
+  },
+
   editUsername: async (email, password, username) => {
     const result = {
       status: null,

@@ -27,6 +27,12 @@ const editPasswordSchema = Joi.object({
   newpassword: Joi.string().min(6).required(),
 });
 
+const resetPasswordSchema = Joi.object({
+  email: Joi.string().min(6).required().email(),
+  password: Joi.string().min(6).required(),
+  confirmpassword: Joi.string().min(6).required(),
+});
+
 class UserController {
   async register(req, res) {
     const { error } = registerSchema.validate(req.body);
@@ -56,7 +62,7 @@ class UserController {
     res.json({ message, data });
   }
 
-  async forgotPw(req, res) {
+  async forgotPassword(req, res) {
     //validate data
 
     if (!req.body.email) {
@@ -67,6 +73,17 @@ class UserController {
     const { status, data, message } = await userService.forgotPw(email);
     res.status(status);
     res.json({ message, data });
+  }
+
+  async resetPassword(req, res) {
+    const { error } = resetPasswordSchema.validate(req.body);
+    if (error) return res.status(400).send(error.details[0].message);
+
+    const { email, password, confirmpassword } = req.body;
+
+    const result = await userService.resetPassword(email, password, confirmpassword);
+    res.status(result.status);
+    res.json({ message: result.message, data: result.data });
   }
 
   async editUsername(req, res) {
