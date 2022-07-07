@@ -179,6 +179,7 @@ module.exports = {
 
     result.status = 200;
     result.message = 'Updated successfully';
+    result.data = 'success';
 
     return result;
   },
