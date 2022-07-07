@@ -119,15 +119,9 @@ module.exports = {
       data: null,
     };
 
-    //email/username exists??
     let user = await User.findOne({
       where: { email: email },
     });
-    // documentation =
-    // [Op.or]:[
-    // { username: username },
-    // { email: email }, ]
-    // does not work because there is a bug
 
     if (!user) {
       result.status = 400;
@@ -138,23 +132,22 @@ module.exports = {
     const randomDigit = Math.floor(100000 + Math.random() * 900000);
 
     //create and assign jwt
-    // const token2 = jwt.sign(
-    //   {
-    //     email: user.email,
-    //     username: user.username,
-    //     code: randomDigit
-    //   },
-    //   privateKey,
-    //   {
-    //     expiresIn: '1h',
-    //   }
-    // );
+    const token = jwt.sign(
+      {
+        email: user.email,
+        code: randomDigit
+      },
+      privateKey,
+      {
+        expiresIn: '1h',
+      }
+    );
 
-    // console.log(token2);
+    // console.log(token);
 
     result.status = 200;
     result.message = 'Token Forgot Password successfully created!';
-    result.data = randomDigit;
+    result.data = token;
 
     return result;
   },
