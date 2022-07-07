@@ -1,14 +1,14 @@
 //when successful / no errors
 
-const User = require('../models/User');
-const { Op } = require('sequelize');
-const jwt = require('jsonwebtoken');
-const bcrypt = require('bcryptjs/dist/bcrypt');
+const User = require("../models/User");
+const { Op } = require("sequelize");
+const jwt = require("jsonwebtoken");
+const bcrypt = require("bcryptjs/dist/bcrypt");
 
-const res = require('express/lib/response');
+const res = require("express/lib/response");
 
-const fs = require('fs');
-const privateKey = fs.readFileSync('./config/jwtRS256.key');
+const fs = require("fs");
+const privateKey = fs.readFileSync("./config/jwtRS256.key");
 
 module.exports = {
   register: async (email, password, username) => {
@@ -24,7 +24,7 @@ module.exports = {
       password: hashPassword,
       username: username,
       subscription: false,
-      role: 'user',
+      role: "user",
     });
     const emailExist = await User.findOne({
       where: { email: user.email },
@@ -67,7 +67,10 @@ module.exports = {
     //email/username exists??
     let user = await User.findOne({
       where: {
-        [Op.or]: [{ username: { [Op.eq]: username } }, { email: { [Op.eq]: email } }],
+        [Op.or]: [
+          { username: { [Op.eq]: username } },
+          { email: { [Op.eq]: email } },
+        ],
       },
     });
     // documentation =
@@ -78,7 +81,7 @@ module.exports = {
 
     if (!user) {
       result.status = 400;
-      result.message = 'Username or email not found';
+      result.message = "Username or email does not exist. Please try again.";
       return result;
     }
 
@@ -86,7 +89,7 @@ module.exports = {
     const validatePw = await bcrypt.compare(password, user.password);
     if (!validatePw) {
       result.status = 400;
-      result.message = 'Wrong password';
+      result.message = "Password could not match. Please try again.";
       return result;
     }
     //create and assign jwt
@@ -100,13 +103,13 @@ module.exports = {
       },
       privateKey,
       {
-        expiresIn: '1h',
+        expiresIn: "1h",
       }
     );
     console.log(token);
 
     result.status = 200;
-    result.message = 'Token successfully created!';
+    result.message = "Token successfully created!";
     result.data = token;
 
     return result;
@@ -125,7 +128,7 @@ module.exports = {
 
     if (!user) {
       result.status = 400;
-      result.message = 'Email not found';
+      result.message = "Email not found";
       return result;
     }
 
@@ -135,18 +138,18 @@ module.exports = {
     const token = jwt.sign(
       {
         email: user.email,
-        code: randomDigit
+        code: randomDigit,
       },
       privateKey,
       {
-        expiresIn: '1h',
+        expiresIn: "1h",
       }
     );
 
     // console.log(token);
 
     result.status = 200;
-    result.message = 'Token Forgot Password successfully created!';
+    result.message = "Token Forgot Password successfully created!";
     result.data = token;
 
     return result;
@@ -167,7 +170,7 @@ module.exports = {
     //Validate password
     if (password != confirmpassword) {
       result.status = 400;
-      result.message = 'Confirm password not match!';
+      result.message = "Confirm password not match!";
       return result;
     }
 
@@ -178,8 +181,8 @@ module.exports = {
     await user.save();
 
     result.status = 200;
-    result.message = 'Updated successfully';
-    result.data = 'success';
+    result.message = "Updated successfully";
+    result.data = "success";
 
     return result;
   },
@@ -200,7 +203,7 @@ module.exports = {
     const validatePw = await bcrypt.compare(password, user.password);
     if (!validatePw) {
       result.status = 400;
-      result.message = 'Wrong password';
+      result.message = "Wrong password";
       return result;
     }
 
@@ -228,12 +231,12 @@ module.exports = {
       },
       privateKey,
       {
-        expiresIn: '1h',
+        expiresIn: "1h",
       }
     );
 
     result.status = 200;
-    result.message = 'Updated successfully';
+    result.message = "Updated successfully";
     result.data = token;
 
     return result;
@@ -255,7 +258,7 @@ module.exports = {
     const validatePw = await bcrypt.compare(password, user.password);
     if (!validatePw) {
       result.status = 400;
-      result.message = 'Wrong password';
+      result.message = "Wrong password";
       return result;
     }
 
@@ -275,12 +278,12 @@ module.exports = {
       },
       privateKey,
       {
-        expiresIn: '1h',
+        expiresIn: "1h",
       }
     );
 
     result.status = 200;
-    result.message = 'Updated successfully';
+    result.message = "Updated successfully";
     result.data = token;
 
     return result;
@@ -311,14 +314,14 @@ module.exports = {
       },
       privateKey,
       {
-        expiresIn: '1h',
+        expiresIn: "1h",
       }
     );
 
     result.status = 200;
-    result.message = 'Subscription update successfully';
+    result.message = "Subscription update successfully";
     result.data = token;
 
     return result;
-  }
+  },
 };

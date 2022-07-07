@@ -1,6 +1,6 @@
 //error handling
-const userService = require('../services/user.service');
-const Joi = require('@hapi/joi');
+const userService = require("../services/user.service");
+const Joi = require("@hapi/joi");
 
 // validation;
 const registerSchema = Joi.object({
@@ -13,7 +13,7 @@ const loginSchema = Joi.object({
   email: Joi.string().min(6).email(),
   password: Joi.string().min(6).required(),
   username: Joi.string().min(6),
-}).xor('email', 'username');
+}).xor("email", "username");
 
 const editUsernameSchema = Joi.object({
   email: Joi.string().min(6).required().email(),
@@ -53,11 +53,15 @@ class UserController {
       // res.send(schema.validate(req.body));
       if (error) return res.status(400).send(error.details[0].message);
     } else {
-      return res.status(400).send('Username or Email required');
+      return res.status(400).send("Username or Email required");
     }
 
     const { email, password, username } = req.body; //for the line below this to use in services
-    const { status, data, message } = await userService.userControl(email, password, username);
+    const { status, data, message } = await userService.userControl(
+      email,
+      password,
+      username
+    );
     res.status(status);
     res.json({ message, data });
   }
@@ -66,7 +70,7 @@ class UserController {
     //validate data
 
     if (!req.body.email) {
-      return res.status(400).send('Email required');;
+      return res.status(400).send("Email required");
     }
 
     const { email } = req.body; //for the line below this to use in services
@@ -81,7 +85,11 @@ class UserController {
 
     const { email, password, confirmpassword } = req.body;
 
-    const result = await userService.resetPassword(email, password, confirmpassword);
+    const result = await userService.resetPassword(
+      email,
+      password,
+      confirmpassword
+    );
     res.status(result.status);
     res.json({ message: result.message, data: result.data });
   }
@@ -110,7 +118,7 @@ class UserController {
 
   async updateSubscription(req, res) {
     if (!req.body.email) {
-      return res.status(400).send('Email required');
+      return res.status(400).send("Email required");
     }
 
     const { email, subscription } = req.body;
