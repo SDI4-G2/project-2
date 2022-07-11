@@ -26,10 +26,13 @@ Article.init(
       allowNull: false,
       field: 'free_to_view',
     },
-    pdf: {
+    thumbnails: {
+      type: DataTypes.STRING,
+      allowNull: true,
+    },
+    title: {
       type: DataTypes.STRING,
       allowNull: false,
-      field: 'pdf',
     },
   },
   {
