@@ -17,7 +17,7 @@ Article.init(
       field: 'categoryid',
     },
     url: {
-      type: DataTypes.TEXT,
+      type: DataTypes.STRING,
       allowNull: false,
       field: 'url',
     },
